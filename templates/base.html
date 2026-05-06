@@ -20,13 +20,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Accueil</a>
+                    <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="/">Accueil</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/animaux/">Nos animaux</a>
+                    <a class="nav-link {% if '/animaux' in request.path %}active{% endif %}" href="/animaux/">Animaux</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/animal/ajouter/">Ajouter un animal</a>
+                    <a class="nav-link {% if '/animal/ajouter' in request.path %}active{% endif %}" href="/animal/ajouter/">Ajouter un animal</a>
                 </li>
             </ul>
             <form class="d-flex" method="GET" action="/recherche/">
