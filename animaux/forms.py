@@ -3,7 +3,7 @@ from .models import Animal, Adoption
 
 class AnimalForm(forms.ModelForm):
     class Meta:
-        model = Animal
+        model = Animal    # Ce formulaire sauvegarde automatiquement dans la table Animal
         fields = ['nom', 'espece', 'race', 'sexe', 'date_naissance_estimee', 
                   'statut', 'compatibilite_chats']
         widgets = {
