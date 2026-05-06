@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="mb-4">Bienvenue au refuge SafeHeaven</h1>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">  <!-- Vert pour Total -->
+            <div class="card-body">
+                <h5 class="card-title">Total</h5>
+                <p class="card-text display-4">{{ total_animaux }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">  <!-- Bleu pour Disponibles -->
+            <div class="card-body">
+                <h5 class="card-title">Disponibles</h5>
+                <p class="card-text display-4">{{ disponibles }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-danger mb-3">  <!-- Rouge pour Adoptés -->
+            <div class="card-body">
+                <h5 class="card-title">Adoptés</h5>
+                <p class="card-text display-4">{{ adoptes }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-secondary mb-3">  <!-- Gris pour En soin -->
+            <div class="card-body">
+                <h5 class="card-title">En soin</h5>
+                <p class="card-text display-4">{{ en_soin }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Derniers arrivés</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group">
+                    {% for animal in derniers_arrives %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ animal.nom }} - {{ animal.espece.nom_espece }}
+                            {% if animal.statut == 'DISP' %}
+                                <span class="badge bg-primary">Disponible</span>
+                            {% elif animal.statut == 'SOIN' %}
+                                <span class="badge bg-secondary">En soin</span>
+                            {% elif animal.statut == 'ADOP' %}
+                                <span class="badge bg-danger">❤️ Adopté</span>
+                            {% elif animal.statut == 'FAMILLE' %}
+                                <span class="badge bg-warning">Famille d'accueil</span>
+                            {% endif %}
+                        </li>
+                    {% empty %}
+                        <li class="list-group-item">Aucun animal</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a href="/animaux/" class="btn btn-primary">Voir tous nos animaux</a>
+    <a href="/animal/ajouter/" class="btn btn-success">Ajouter un animal</a>
+</div>
+{% endblock %}

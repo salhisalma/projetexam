@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Nos animaux</h1>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5>Filtres</h5>
+            </div>
+            <div class="card-body">
+                <form method="get">
+                    <label class="form-label">Espèce</label>
+                    <select name="espece" class="form-select mb-3">
+                        <option value="">Toutes</option>
+                        {% for espece in especes %}
+                            <option value="{{ espece.id }}">{{ espece.nom_espece }}</option>
+                        {% endfor %}
+                    </select>
+                    
+                    <label class="form-label">Sexe</label>
+                    <select name="sexe" class="form-select mb-3">
+                        <option value="">Tous</option>
+                        <option value="M">Mâle</option>
+                        <option value="F">Femelle</option>
+                    </select>
+                    
+                    <label class="form-label">Statut</label>
+                    <select name="statut" class="form-select mb-3">
+                        <option value="">Tous</option>
+                        <option value="DISP">Disponible</option>
+                        <option value="SOIN">En soin</option>
+                        <option value="ADOP">Adopté</option>
+                        <option value="FAMILLE">Famille d'accueil</option>
+                    </select>
+                    
+                    <div class="form-check mb-3">
+                        <input type="checkbox" name="compatibilite" class="form-check-input" value="1">
+                        <label class="form-check-label">Entente chats</label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100">Filtrer</button>
+                    <a href="/animaux/" class="btn btn-secondary w-100 mt-2">Réinitialiser</a>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-9">
+        <div class="row">
+            {% for animal in animaux %}
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ animal.nom }}</h5>
+                            <p class="card-text">
+                                {{ animal.espece.nom_espece }}<br>
+                                {{ animal.race|default:"Race inconnue" }}<br>
+                                {{ animal.get_sexe_display }}
+                            </p>
+                            {% if animal.statut == 'DISP' %}
+                                <span class="badge bg-primary">Disponible</span>
+                            {% elif animal.statut == 'SOIN' %}
+                                <span class="badge bg-secondary">En soin</span>
+                            {% elif animal.statut == 'ADOP' %}
+                                <span class="badge bg-danger">❤️ Adopté</span>
+                            {% elif animal.statut == 'FAMILLE' %}
+                                <span class="badge bg-warning">Famille d'accueil</span>
+                            {% endif %}
+                        </div>
+                        <div class="card-footer">
+                            <a href="/animal/{{ animal.id }}/" class="btn btn-sm btn-primary">Voir détails</a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12">
+                    <div class="alert alert-info">Aucun animal trouvé.</div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

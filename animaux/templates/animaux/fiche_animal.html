@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>{{ animal.nom }}</h2>
+        <span class="badge bg-{{ animal.get_badge_color }}">{{ animal.get_statut_display_fr }}</span>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Espèce :</strong> {{ animal.espece.nom_espece }}</p>
+                <p><strong>Race :</strong> {{ animal.race|default:"Non spécifiée" }}</p>
+                <p><strong>Sexe :</strong> {{ animal.get_sexe_display }}</p>
+                <p><strong>Date de naissance :</strong> {{ animal.date_naissance_estimee|default:"Inconnue" }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Date d'arrivée :</strong> {{ animal.date_arrivee }}</p>
+                <p><strong>Entente chats :</strong> {{ animal.compatibilite_chats|yesno:"Oui,Non" }}</p>
+                {% if adoption %}
+                    <p><strong>Adopté par :</strong> {{ adoption.nom_adoptant }}</p>
+                    <p><strong>Date d'adoption :</strong> {{ adoption.date_adoption }}</p>
+                    <p><strong>Frais :</strong> {{ adoption.frais_participation|default:"Non spécifié" }} €</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <a href="{% url 'liste_animaux' %}" class="btn btn-secondary">Retour</a>
+        {% if animal.statut != 'ADOP' %}
+            <a href="{% url 'adopter_animal' animal.id %}" class="btn btn-success">Adopter</a>
+        {% endif %}
+        <a href="{% url 'modifier_animal' animal.id %}" class="btn btn-warning">Modifier</a>
+    </div>
+</div>
+{% endblock %}
